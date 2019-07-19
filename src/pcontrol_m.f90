@@ -1,8 +1,13 @@
 module pcontrol_m
       use io_m
       use atom_m
+      use time_m
       implicit none
       integer, parameter :: input_fd = 3
+
+      type(atom_t), dimension(:), allocatable :: atoms
+      type(time_t) :: sim_time
+
       public :: parse_args
       contains
               subroutine parse_args()
@@ -36,9 +41,8 @@ module pcontrol_m
                         endif
               end subroutine end_program
 
-              subroutine parse_input(atoms)
+              subroutine parse_input()
                       implicit none
-                      type(atom_t), dimension(:), allocatable :: atoms
                       character(len = 255) :: id
                       integer :: stat = 0, npart = 0, I
 
@@ -52,6 +56,10 @@ module pcontrol_m
                                         call print_atom(atoms(i))
                                 end do
                                 id = "NONE"
+                        else if (id == "TIME") then
+                               call read_time(input_fd, sim_time, stat)
+                               call print_time(sim_time)
+                               id = "NONE"
                         end if
                       end do
               end subroutine parse_input

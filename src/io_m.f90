@@ -1,5 +1,6 @@
 module io_m
       use atom_m
+      use time_m
       use constants_m
       implicit none
       public :: open_read
@@ -32,12 +33,33 @@ module io_m
               subroutine print_atom(atom)
                       implicit none
                       type(atom_t) :: atom
-                      real(kind=dp) pi, pj, vi, vj
+                      real(kind=dp) :: pi, pj, vi, vj
                       call get_atom(atom, pi, pj, vi, vj)
                       print *, "Atom:"
                       print *, "-Position: (",pi,",",pj,")"
                       print *, "-Velocity: (",vi,",",vj,")"
               end subroutine print_atom
+
+              subroutine read_time( fd, time, stat )
+                      implicit none
+                      integer :: fd, stat
+                      type(time_t) :: time
+                      real(kind=dp) :: bt, st, et
+                      read (fd, *, IOSTAT=stat) bt, st, et
+                      call set_time( time, bt, et, st )
+              end subroutine read_time
+
+              subroutine print_time( time )
+                      implicit none
+                      type(time_t) :: time
+                      real(kind=dp) :: b, e, c, s
+                      call get_time(time, b, e, c, s)
+                      print *, "Time: "
+                      print *, "Begin time: ", b
+                      print *, "Current time: ", c
+                      print *, "End time: ", e
+              end subroutine print_time
+
 
 
 end module io_m
