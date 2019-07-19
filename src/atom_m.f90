@@ -1,5 +1,6 @@
 module atom_m
       use vector2_m
+      use constants_m
       implicit none
       type atom_t
               type(vector2_t) :: pos, vel 
@@ -11,7 +12,7 @@ module atom_m
               subroutine set_atom( a, pi, pj, vi, vj )
                       implicit none
                       type(atom_t) :: a
-                      real :: vi, vj, pi, pj
+                      real(kind=dp) :: vi, vj, pi, pj
 
                       call set_v2(a%pos, pi, pj)
                       call set_v2(a%vel, vi, vj) 
@@ -21,7 +22,7 @@ module atom_m
               subroutine get_atom( a, pi, pj, vi, vj )
                       implicit none
                       type(atom_t) :: a
-                      real :: vi, vj, pi, pj
+                      real(kind=dp) :: vi, vj, pi, pj
                       call get_i_v2(a%vel, vi)
                       call get_j_v2(a%vel, vj)
                       call get_i_v2(a%pos, pi)

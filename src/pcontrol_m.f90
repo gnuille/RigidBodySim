@@ -41,17 +41,17 @@ module pcontrol_m
                       type(atom_t), dimension(:), allocatable :: atoms
                       character(len = 255) :: id
                       integer :: stat = 0, npart = 0, I
-                      real :: x=0, y=0
 
                       do while( stat == 0 )
                         read (input_fd, *, IOSTAT=stat) id
                         if (id == "ATOMS") then
                                 read (input_fd, *, IOSTAT=stat) npart
                                 allocate(atoms(npart)) 
-                                do I=0, npart
+                                do I=1,npart
                                         call read_atom(input_fd, atoms(i), stat)        
                                         call print_atom(atoms(i))
                                 end do
+                                id = "NONE"
                         end if
                       end do
               end subroutine parse_input

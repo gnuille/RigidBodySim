@@ -1,5 +1,6 @@
 module io_m
       use atom_m
+      use constants_m
       implicit none
       public :: open_read
       contains
@@ -23,7 +24,7 @@ module io_m
                       implicit none
                       integer :: fd, stat
                       type(atom_t) :: atom
-                      real :: vi, vj, pi, pj
+                      real(kind=dp) :: vi, vj, pi, pj
                       read (fd, *, IOSTAT=stat) pi, pj, vi, vj
                       call set_atom(atom, pi, pj, vi, vj) 
               end subroutine read_atom
@@ -31,7 +32,7 @@ module io_m
               subroutine print_atom(atom)
                       implicit none
                       type(atom_t) :: atom
-                      real pi, pj, vi, vj
+                      real(kind=dp) pi, pj, vi, vj
                       call get_atom(atom, pi, pj, vi, vj)
                       print *, "Atom:"
                       print *, "-Position: (",pi,",",pj,")"
