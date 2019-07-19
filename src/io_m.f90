@@ -25,19 +25,21 @@ module io_m
                       implicit none
                       integer :: fd, stat
                       type(atom_t) :: atom
-                      real(kind=dp) :: vi, vj, pi, pj
-                      read (fd, *, IOSTAT=stat) pi, pj, vi, vj
-                      call set_atom(atom, pi, pj, vi, vj) 
+                      real(kind=dp) :: vi, vj, pi, pj, q, m
+                      read (fd, *, IOSTAT=stat) pi, pj, vi, vj, q, m
+                      call set_atom(atom, pi, pj, vi, vj, q, m) 
               end subroutine read_atom
 
               subroutine print_atom(atom)
                       implicit none
                       type(atom_t) :: atom
-                      real(kind=dp) :: pi, pj, vi, vj
-                      call get_atom(atom, pi, pj, vi, vj)
+                      real(kind=dp) :: pi, pj, vi, vj, q, m
+                      call get_atom(atom, pi, pj, vi, vj, q, m)
                       print *, "Atom:"
                       print *, "-Position: (",pi,",",pj,")"
                       print *, "-Velocity: (",vi,",",vj,")"
+                      print *, "--Mass: ",mi
+                      print *, "--Charge: ",q
               end subroutine print_atom
 
               subroutine read_time( fd, time, stat )
@@ -59,8 +61,6 @@ module io_m
                       print *, "Current time: ", c
                       print *, "End time: ", e
               end subroutine print_time
-
-
 
 end module io_m
 
