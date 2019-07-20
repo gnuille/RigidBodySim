@@ -38,7 +38,7 @@ module io_m
                       print *, "Atom:"
                       print *, "-Position: (",pi,",",pj,")"
                       print *, "-Velocity: (",vi,",",vj,")"
-                      print *, "--Mass: ",mi
+                      print *, "--Mass: ",m
                       print *, "--Charge: ",q
               end subroutine print_atom
 
