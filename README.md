@@ -1,2 +1,2 @@
-# AtomSim (in progress)
-An atom level simulator written in fortran90.
+# RigidBodySim (in progress)
+A rigid body simulator written in fortran90
