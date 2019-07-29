@@ -1,5 +1,5 @@
 module io_m
-      use atom_m
+      use rigid_body_m
       use time_m
       use constants_m
       implicit none
@@ -21,26 +21,26 @@ module io_m
                       read(fd, *, IOSTAT=stat) id
               end subroutine read_id
 
-              subroutine read_atom( fd, atom, stat )
+              subroutine read_rigid_body( fd, rigid_body, stat )
                       implicit none
                       integer :: fd, stat
-                      type(atom_t) :: atom
+                      type(rigid_body_t) :: rigid_body
                       real(kind=dp) :: vi, vj, pi, pj, q, m
                       read (fd, *, IOSTAT=stat) pi, pj, vi, vj, q, m
-                      call set_atom(atom, pi, pj, vi, vj, q, m) 
-              end subroutine read_atom
+                      call set_rigid_body(rigid_body, pi, pj, vi, vj, q, m) 
+              end subroutine read_rigid_body
 
-              subroutine print_atom(atom)
+              subroutine print_rigid_body(rigid_body)
                       implicit none
-                      type(atom_t) :: atom
+                      type(rigid_body_t) :: rigid_body
                       real(kind=dp) :: pi, pj, vi, vj, q, m
-                      call get_atom(atom, pi, pj, vi, vj, q, m)
-                      print *, "Atom:"
+                      call get_rigid_body(rigid_body, pi, pj, vi, vj, q, m)
+                      print *, "Body:"
                       print *, "-Position: (",pi,",",pj,")"
                       print *, "-Velocity: (",vi,",",vj,")"
                       print *, "--Mass: ",m
                       print *, "--Charge: ",q
-              end subroutine print_atom
+              end subroutine print_rigid_body
 
               subroutine read_time( fd, time, stat )
                       implicit none

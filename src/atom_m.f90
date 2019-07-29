@@ -1,18 +1,18 @@
-module atom_m
+module rigid_body_m
       use vector2_m
       use constants_m
       implicit none
-      type atom_t
+      type rigid_body_t
               type(vector2_t) :: pos, vel
               real(kind=dp) :: q, m
-      end type atom_t
+      end type rigid_body_t
 
       public :: get_i_v2, get_j_v2, set_v2
 
       contains
-              subroutine set_atom( a, pi, pj, vi, vj, q, m )
+              subroutine set_rigid_body( a, pi, pj, vi, vj, q, m )
                       implicit none
-                      type(atom_t) :: a
+                      type(rigid_body_t) :: a
                       real(kind=dp) :: vi, vj, pi, pj, q, m
 
                       call set_v2(a%pos, pi, pj)
@@ -20,11 +20,11 @@ module atom_m
                       a%q = q
                       a%m = m
 
-              end subroutine set_atom
+              end subroutine set_rigid_body
 
-              subroutine get_atom( a, pi, pj, vi, vj, q, m )
+              subroutine get_rigid_body( a, pi, pj, vi, vj, q, m )
                       implicit none
-                      type(atom_t) :: a
+                      type(rigid_body_t) :: a
                       real(kind=dp) :: vi, vj, pi, pj, q, m
 
                       call get_i_v2(a%vel, vi)
@@ -34,21 +34,21 @@ module atom_m
                       q = a%q
                       m = a%m
 
-              end subroutine get_atom
+              end subroutine get_rigid_body
 
-              subroutine get_vel_atom(a, v)
+              subroutine get_vel_rigid_body(a, v)
                       implicit none
-                      type(atom_t) :: a
+                      type(rigid_body_t) :: a
                       type(vector2_t) :: v
                       v = a%vel
-              end subroutine get_vel_atom
+              end subroutine get_vel_rigid_body
 
-              subroutine get_pos_atom(a, p)
+              subroutine get_pos_rigid_body(a, p)
                       implicit none
-                      type(atom_t) :: a
+                      type(rigid_body_t) :: a
                       type(vector2_t) :: p
                       p = a%pos
-              end subroutine get_pos_atom
+              end subroutine get_pos_rigid_body
 
-end module atom_m
+end module rigid_body_m
 

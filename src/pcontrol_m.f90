@@ -1,11 +1,11 @@
 module pcontrol_m
       use io_m
-      use atom_m
+      use rigid_body_m
       use time_m
       implicit none
       integer, parameter :: input_fd = 3
 
-      type(atom_t), dimension(:), allocatable :: atoms
+      type(rigid_body_t), dimension(:), allocatable :: rigid_bodys
       type(time_t) :: sim_time
 
       public :: parse_args
@@ -50,10 +50,10 @@ module pcontrol_m
                         read (input_fd, *, IOSTAT=stat) id
                         if (id == "ATOMS") then
                                 read (input_fd, *, IOSTAT=stat) npart
-                                allocate(atoms(npart)) 
+                                allocate(rigid_bodys(npart)) 
                                 do I=1,npart
-                                        call read_atom(input_fd, atoms(i), stat)        
-                                        call print_atom(atoms(i))
+                                        call read_rigid_body(input_fd, rigid_bodys(i), stat)        
+                                        call print_rigid_body(rigid_bodys(i))
                                 end do
                                 id = "NONE"
                         else if (id == "TIME") then
