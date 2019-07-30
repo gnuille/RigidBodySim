@@ -39,8 +39,8 @@ module io_m
 
                       print *, "Body:"
                      ! print *, "-Position: (",pi,",",pj,")"
-                      call print_vec2d("-Position: ", pi, pj)
-                      print *, "-Velocity: (",vi,",",vj,")"
+                      call print_vec2d("        -Position: ",len("        -Position: "), pi, pj)
+                      call print_vec2d("        -Velocity: ",len("        -Position: "), vi, vj)
                       print *, "--Mass: ",m
                       print *, "--Charge: ",q
               end subroutine print_rigid_body
@@ -65,14 +65,16 @@ module io_m
                       print *, "End time: ", e
               end subroutine print_time
 
-              subroutine print_vec2d( label, i, j)
+              subroutine print_vec2d( label, lsize, i, j)
                       implicit none
                       real(kind=dp) :: i, j
-                      character*8 :: label
+                      integer :: lsize
+                      character(len=lsize) :: label
                       character(len=80):: vecfmt
                       vecfmt = "(A,A,F0.5,A,F0.5,A)"
                       write(*, vecfmt) label,"(",i,",",j,")"
               end subroutine print_vec2d
+
 
 end module io_m
 
