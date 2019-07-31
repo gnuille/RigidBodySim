@@ -48,7 +48,7 @@ module pcontrol_m
 
                       do while( stat == 0 )
                         read (input_fd, *, IOSTAT=stat) id
-                        if (id == "ATOMS") then
+                        if (id == "BODIES") then
                                 read (input_fd, *, IOSTAT=stat) npart
                                 allocate(rigid_bodys(npart)) 
                                 do I=1,npart

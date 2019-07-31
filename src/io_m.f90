@@ -38,11 +38,11 @@ module io_m
                       call get_rigid_body(rigid_body, pi, pj, vi, vj, q, m)
 
                       print *, "Body:"
-                     ! print *, "-Position: (",pi,",",pj,")"
                       call print_vec2d("        -Position: ",len("        -Position: "), pi, pj)
                       call print_vec2d("        -Velocity: ",len("        -Position: "), vi, vj)
-                      print *, "--Mass: ",m
-                      print *, "--Charge: ",q
+                      call print_real("        -Mass: ", len("        -Mass:"), m) 
+                      call print_real("        -Charge: ", len("       -Charge: "), q)
+
               end subroutine print_rigid_body
 
               subroutine read_time( fd, time, stat )
@@ -60,9 +60,10 @@ module io_m
                       real(kind=dp) :: b, e, c, s
                       call get_time(time, b, e, c, s)
                       print *, "Time: "
-                      print *, "Begin time: ", b
-                      print *, "Current time: ", c
-                      print *, "End time: ", e
+                      call print_real("        -Begin time: ", len("        -Begin time: "), b)
+                      call print_real("        -Step: ",len("        -Step: "), s)
+                      call print_real("        -Current time: ", len("        -Current time: "), c)
+                      call print_real("        -End time: ", len("        -End time: "), e)   
               end subroutine print_time
 
               subroutine print_vec2d( label, lsize, i, j)
@@ -74,6 +75,16 @@ module io_m
                       vecfmt = "(A,A,F0.5,A,F0.5,A)"
                       write(*, vecfmt) label,"(",i,",",j,")"
               end subroutine print_vec2d
+
+              subroutine print_real( label, lsize, r )
+                      implicit none
+                      real(kind=dp) :: r
+                      integer :: lsize
+                      character(len = lsize) :: label
+                      character(len=80) :: vecfmt
+                      vecfmt ="(A,F0.5)"
+                      write(*, vecfmt) label, r
+              end subroutine print_real
 
 
 end module io_m

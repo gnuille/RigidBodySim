@@ -8,7 +8,7 @@ main.x: main.f90 $(MODULES)
 	$(F90) $(MODULES) main.f90 -o main.x
 
 test: main.x
-	./main.x ../test/atoms.inp
+	./main.x ../test/simple.inp
 
 clean:
 	rm -rf *.x *.mod *.o
