@@ -9,6 +9,7 @@ main.x: main.f90 $(MODULES)
 
 test: main.x
 	./main.x ../test/simple.inp
+	$(MAKE) clean
 
 clean:
 	rm -rf *.x *.mod *.o
