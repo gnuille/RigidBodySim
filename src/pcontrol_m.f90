@@ -45,7 +45,7 @@ module pcontrol_m
               subroutine parse_input()
                       implicit none
                       character(len = 255) :: id
-                      integer :: stat = 0, i
+                      integer :: stat = 0, I
 
                       do while( stat == 0 )
                         read (input_fd, *, IOSTAT=stat) id
