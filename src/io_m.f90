@@ -40,8 +40,8 @@ module io_m
                       print *, "Body:"
                       call print_vec2d("        -Position: ",len("        -Position: "), pi, pj)
                       call print_vec2d("        -Velocity: ",len("        -Position: "), vi, vj)
-                      call print_real("        -Mass: ", len("        -Mass:"), m) 
-                      call print_real("        -Charge: ", len("       -Charge: "), q)
+                      call print_real("        -Mass: ", len("        -Mass: "), m) 
+                      call print_real("        -Charge: ", len("        -Charge: "), q)
 
               end subroutine print_rigid_body
 

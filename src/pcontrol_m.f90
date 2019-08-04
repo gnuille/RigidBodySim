@@ -2,10 +2,11 @@ module pcontrol_m
       use io_m
       use rigid_body_m
       use time_m
-      implicit none
-      integer, parameter :: input_fd = 3
-
-      type(rigid_body_t), dimension(:), allocatable :: rigid_bodys
+      implicit none 
+      integer, parameter :: input_fd = 3 
+      integer :: nbodies = 0
+      type(rigid_body_t), target, dimension(:), allocatable :: bodies1, bodies2
+      type(rigid_body_t), pointer, dimension(:) :: current, tmp
       type(time_t) :: sim_time
 
       public :: parse_args
@@ -44,16 +45,19 @@ module pcontrol_m
               subroutine parse_input()
                       implicit none
                       character(len = 255) :: id
-                      integer :: stat = 0, npart = 0, I
+                      integer :: stat = 0, i
 
                       do while( stat == 0 )
                         read (input_fd, *, IOSTAT=stat) id
                         if (id == "BODIES") then
-                                read (input_fd, *, IOSTAT=stat) npart
-                                allocate(rigid_bodys(npart)) 
-                                do I=1,npart
-                                        call read_rigid_body(input_fd, rigid_bodys(i), stat)        
-                                        call print_rigid_body(rigid_bodys(i))
+                                read (input_fd, *, IOSTAT=stat) nbodies
+                                allocate(bodies1(nbodies)) 
+                                allocate(bodies2(nbodies))
+                                current =>  bodies1
+                                tmp     =>  bodies2
+                                do I=1,nbodies
+                                        call read_rigid_body(input_fd, current(i), stat)        
+                                        call print_rigid_body(current(i))
                                 end do
                                 id = "NONE"
                         else if (id == "TIME") then
@@ -63,6 +67,17 @@ module pcontrol_m
                         end if
                       end do
               end subroutine parse_input
+
+             subroutine init_sim()
+                     implicit none
+                     
+                      ! update bodies in tmp
+                      ! swap tmp to current
+                      ! update time step
+
+
+
+              end subroutine init_sim
 
 end module pcontrol_m
 
