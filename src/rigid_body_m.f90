@@ -7,7 +7,7 @@ module rigid_body_m
               real(kind=dp) :: q, m
       end type rigid_body_t
 
-      public :: get_i_v2, get_j_v2, set_v2
+      public :: set_rigid_body, get_rigid_body, get_vel_rigid_body, get_pos_rigid_body
 
       contains
               subroutine set_rigid_body( a, pi, pj, vi, vj, q, m )
