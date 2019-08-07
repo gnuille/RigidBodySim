@@ -59,6 +59,7 @@ contains
                         tmp     =>  bodies2
                         do I=1,nbodies
                                 call read_rigid_body(input_fd, current(i), stat)        
+                                call copy_rigid_body( current(i), tmp(i))
                                 call print_rigid_body(current(i))
                         end do
                         id = "NONE"
@@ -80,15 +81,16 @@ contains
                         call step()
                         call ended_time( sim_time, ended)
                 end do
-                               
-                ! update bodies in tmp
-                ! swap tmp to current
-                ! update time step
-
+                call end_sim()
         end subroutine simulate
 
         subroutine step()
                 implicit none
+                integer :: I
+                do I=1,nbodies
+                        call update_rigid_body(I)        
+                end do
+                ! update time step for next iteration
                 call step_time( sim_time )
 
         end subroutine step
@@ -98,6 +100,14 @@ contains
                 print *, "Simulation has ended"
                 stop 0
         end subroutine end_sim
+
+        subroutine update_rigid_body(i)
+                implicit none
+                integer :: i
+                ! atm no calculations
+                call copy_rigid_body(current(i), tmp(i))
+        end subroutine update_rigid_body 
+
 
 end module pcontrol_m
 

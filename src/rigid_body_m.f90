@@ -50,5 +50,11 @@ module rigid_body_m
                       p = a%pos
               end subroutine get_pos_rigid_body
 
+              subroutine copy_rigid_body( inp, src )
+                      implicit none
+                      type(rigid_body_t) :: inp, src
+                      src = inp
+              end subroutine copy_rigid_body 
+
 end module rigid_body_m
 
