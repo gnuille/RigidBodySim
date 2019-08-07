@@ -40,8 +40,7 @@ module time_m
                         type(time_t) :: t
                         logical :: b
 
-                        b = (t%end_time < t%current_time)
+                        b = (t%end_time <= t%current_time)
                 end subroutine ended_time
-
 
 end module time_m

@@ -10,8 +10,9 @@ module pcontrol_m
         type(time_t) :: sim_time
 
         public :: parse_args
+
 contains
-        subroutine parse_args()
+        subroutine parse_args() 
                 implicit none
                 character(len = 255) :: filename
                 integer :: narg
@@ -29,6 +30,7 @@ contains
         end subroutine parse_args
 
         subroutine usage()
+                implicit none
                 print *, "Usage ./main.x inputfile"
         end subroutine usage
 
@@ -56,8 +58,8 @@ contains
                         current =>  bodies1
                         tmp     =>  bodies2
                         do I=1,nbodies
-                        call read_rigid_body(input_fd, current(i), stat)        
-                        call print_rigid_body(current(i))
+                                call read_rigid_body(input_fd, current(i), stat)        
+                                call print_rigid_body(current(i))
                         end do
                         id = "NONE"
                 else if (id == "TIME") then
@@ -70,15 +72,32 @@ contains
 
         subroutine simulate()
                 implicit none
-                
-
+                logical :: ended
+                call ended_time( sim_time, ended)
+                do while (.not. ended )
+                        print *, "New iteration: "
+                        call print_time( sim_time )
+                        call step()
+                        call ended_time( sim_time, ended)
+                end do
+                               
                 ! update bodies in tmp
                 ! swap tmp to current
                 ! update time step
 
-
-
         end subroutine simulate
+
+        subroutine step()
+                implicit none
+                call step_time( sim_time )
+
+        end subroutine step
+
+        subroutine end_sim()
+                implicit none
+                print *, "Simulation has ended"
+                stop 0
+        end subroutine end_sim
 
 end module pcontrol_m
 
