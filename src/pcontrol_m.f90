@@ -2,6 +2,7 @@ module pcontrol_m
         use io_m
         use rigid_body_m
         use time_m
+        use physics_m
         implicit none 
         integer, parameter :: input_fd = 3 
         integer :: nbodies = 0
@@ -89,7 +90,7 @@ end subroutine parse_args
 
                 integer :: I
                 do I=1,nbodies
-                        call update_rigid_body(I)        
+                        call compute_rigid_body_step(I)        
                 end do
                 !swap current and tmp pointers
                 swp => current
@@ -106,14 +107,27 @@ end subroutine parse_args
                 stop 0
         end subroutine end_sim
 
-        subroutine update_rigid_body(i)
+        subroutine compute_rigid_body_step(i)
                 implicit none
                 integer :: i
+                type(vector2_t) :: a, v, p
+                real(kind=dp) :: dt
                 ! atm no calculations
-                call copy_rigid_body(current(i), tmp(i))
+                !call copy_rigid_body(current(i), tmp(i))
 
+                !calculate F
+                !calculate A = ( F/m )
+                call get_acc_rigid_body(current(i), a)
+                call get_vel_rigid_body(current(i), v)
+                call get_pos_rigid_body(current(i), p)
+                
+                call get_delta_time( sim_time, dt) 
+                p = pos_mrua( p, a, v, dt)
+                v = vel_mrua( v, a, dt)
 
-        end subroutine update_rigid_body 
+                call update_rigid_body( tmp(i), a, v, p)
+
+        end subroutine compute_rigid_body_step 
 
 end module pcontrol_m
 

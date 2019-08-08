@@ -27,6 +27,23 @@ module vector2_m
                         real(kind=dp) :: j
                         j = v%j
               end subroutine get_j_v2              
+              
+              function scalar_product_v2( v, k ) result(ret)
+                      implicit none
+                      type(vector2_t), intent(in) :: v
+                      real(kind=dp), intent(in) :: k
+                      type(vector2_t) :: ret
+                      ret%i = v%i*k
+                      ret%j = v%j*k
+              end function scalar_product_v2
+
+              function add_v2( a, b) result(ret)
+                      implicit none
+                      type(vector2_t), intent(in) :: a, b
+                      type(vector2_t) :: ret
+                      ret%i = a%i + b%i
+                      ret%j = a%j + b%j
+              end function add_v2
 
 end module vector2_m
 

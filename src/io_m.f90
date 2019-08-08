@@ -34,7 +34,6 @@ module io_m
                       implicit none
                       type(rigid_body_t) :: rigid_body
                       real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
-                      character(len=80) :: vecfmt
                       call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
 
                       print *, "Body:"
@@ -45,6 +44,22 @@ module io_m
                       call print_real("        -Charge: ", len("        -Charge: "), q)
 
               end subroutine print_rigid_body
+
+              subroutine print_pos_rigid_body(rigid_body)
+                      implicit none
+                      type(rigid_body_t) :: rigid_body
+                      real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
+                      call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
+
+                      call print_vec2d("Body is at position: ", len("Body is at position: "), pi, pj)
+              end subroutine print_pos_rigid_body
+
+              subroutine print_paraview_rigid_body(rigid_body)
+                      implicit none
+                      type(rigid_body_t) :: rigid_body
+                      real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
+                      call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
+              end subroutine print_paraview_rigid_body
 
               subroutine read_time( fd, time, stat )
                       implicit none

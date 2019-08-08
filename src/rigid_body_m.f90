@@ -66,5 +66,14 @@ module rigid_body_m
                       src = inp
               end subroutine copy_rigid_body 
 
+              subroutine update_rigid_body( inp, a, v, p)
+                      implicit none
+                      type(rigid_body_t) :: inp
+                      type(vector2_t) :: a, v, p
+                      inp%acc = a
+                      inp%vel = v
+                      inp%pos = p
+              end subroutine update_rigid_body
+
 end module rigid_body_m
 
