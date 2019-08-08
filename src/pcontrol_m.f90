@@ -108,6 +108,5 @@ contains
                 call copy_rigid_body(current(i), tmp(i))
         end subroutine update_rigid_body 
 
-
 end module pcontrol_m
 
