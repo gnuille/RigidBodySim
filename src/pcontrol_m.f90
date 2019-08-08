@@ -86,10 +86,17 @@ contains
 
         subroutine step()
                 implicit none
+                type(rigid_body_t), pointer, dimension(:) :: swp
+
                 integer :: I
                 do I=1,nbodies
                         call update_rigid_body(I)        
                 end do
+                !swap current and tmp pointers
+                swp => current
+                current => tmp
+                tmp => swp
+
                 ! update time step for next iteration
                 call step_time( sim_time )
 
