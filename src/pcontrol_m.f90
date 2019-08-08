@@ -26,8 +26,7 @@ contains
                 call get_command_argument(1, filename)
                 call open_read(filename, input_fd)
                 print *, "Succefully loaded input file"
-
-        end subroutine parse_args
+end subroutine parse_args
 
         subroutine usage()
                 implicit none
@@ -96,7 +95,6 @@ contains
                 swp => current
                 current => tmp
                 tmp => swp
-
                 ! update time step for next iteration
                 call step_time( sim_time )
 
@@ -113,6 +111,8 @@ contains
                 integer :: i
                 ! atm no calculations
                 call copy_rigid_body(current(i), tmp(i))
+
+
         end subroutine update_rigid_body 
 
 end module pcontrol_m
