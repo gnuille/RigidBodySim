@@ -124,6 +124,9 @@ end subroutine parse_args
                 call get_delta_time( sim_time, dt) 
                 p = pos_mrua( p, a, v, dt)
                 v = vel_mrua( v, a, dt)
+#ifdef DEBUG
+                print*, "yea you are debugging"
+#endif
 
                 call update_rigid_body( tmp(i), a, v, p)
 

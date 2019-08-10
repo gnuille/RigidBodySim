@@ -7,7 +7,10 @@ all: main.x
 main.x: main.f90 $(MODULES)
 	$(F90) $(MODULES) main.f90 -o main.x
 
-test: main.x
+main.d.x: main.f90 $(MODULES)
+	$(F90) -DDEBUG $(MODULES) main.f90 -o main.x
+
+test: main.d.x
 	./main.x ../test/simple.inp
 	$(MAKE) clean
 
