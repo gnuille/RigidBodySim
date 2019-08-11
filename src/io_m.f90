@@ -1,5 +1,6 @@
 module io_m
       use rigid_body_m
+      use vector2_m
       use time_m
       use constants_m
       implicit none
@@ -37,9 +38,9 @@ module io_m
                       call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
 
                       print *, "Body:"
-                      call print_vec2d("        -Position: ",len("        -Position: "), pi, pj)
-                      call print_vec2d("        -Velocity: ",len("        -Position: "), vi, vj)
-                      call print_vec2d("        -Acceleration",len("        -Acceleration: "), ai, aj)
+                      call print_vec2d_double("        -Position: ",len("        -Position: "), pi, pj)
+                      call print_vec2d_double("        -Velocity: ",len("        -Position: "), vi, vj)
+                      call print_vec2d_double("        -Acceleration",len("        -Acceleration: "), ai, aj)
                       call print_real("        -Mass: ", len("        -Mass: "), m) 
                       call print_real("        -Charge: ", len("        -Charge: "), q)
 
@@ -51,7 +52,7 @@ module io_m
                       real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
                       call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
 
-                      call print_vec2d("Body is at position: ", len("Body is at position: "), pi, pj)
+                      call print_vec2d_double("Body is at position: ", len("Body is at position: "), pi, pj)
               end subroutine print_pos_rigid_body
 
               subroutine print_paraview_rigid_body(rigid_body)
@@ -82,7 +83,7 @@ module io_m
                       call print_real("        -End time: ", len("        -End time: "), e)   
               end subroutine print_time
 
-              subroutine print_vec2d( label, lsize, i, j)
+              subroutine print_vec2d_double( label, lsize, i, j)
                       implicit none
                       real(kind=dp) :: i, j
                       integer :: lsize
@@ -90,7 +91,17 @@ module io_m
                       character(len=80):: vecfmt
                       vecfmt = "(A,A,F0.5,A,F0.5,A)"
                       write(*, vecfmt) label,"(",i,",",j,")"
-              end subroutine print_vec2d
+              end subroutine print_vec2d_double
+
+              subroutine print_vector2( label, lsize, v)
+                      implicit none
+                      type(vector2_t) :: v 
+                      integer :: lsize
+                      character(len=lsize) :: label
+                      real(kind=dp) i, j
+                      call get_v2(v, i, j)
+                      call print_vec2d_double( label, lsize, i, j)
+              end subroutine print_vector2
 
               subroutine print_real( label, lsize, r )
                       implicit none
@@ -101,5 +112,27 @@ module io_m
                       vecfmt ="(A,F0.5)"
                       write(*, vecfmt) label, r
               end subroutine print_real
+
+              subroutine print_integer( label, lsize, i )
+                      implicit none
+                      integer :: i, lsize
+                      character(len=lsize) :: label
+                      character(len=80) :: ifmt
+                      print '("",A,I0)', label, i
+              end subroutine print_integer
+
+              subroutine print_update_vector2(label, lsize, vo, vf )
+                      implicit none
+                      type(vector2_t) :: vo, vf
+                      integer :: lsize
+                      character(len=lsize) :: label
+                      character(len=80) :: f
+                      real(kind=dp) :: io, jo, i, j
+                      f="(A,A,F0.5,A,F0.5,A,F0.5,A,F0.5,A)"
+                      call get_v2(vo, io, jo)
+                      call get_v2(vf, i, j)
+                      write(*, f) label, "from (",io,",",jo,") to (",i,",",j,")"
+              end subroutine print_update_vector2
+                      
 end module io_m
 

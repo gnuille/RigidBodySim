@@ -3,6 +3,7 @@ module pcontrol_m
         use rigid_body_m
         use time_m
         use physics_m
+        use log_m
         implicit none 
         integer, parameter :: input_fd = 3 
         integer :: nbodies = 0
@@ -112,20 +113,26 @@ end subroutine parse_args
                 integer :: i
                 type(vector2_t) :: a, v, p
                 real(kind=dp) :: dt
-                ! atm no calculations
-                !call copy_rigid_body(current(i), tmp(i))
+#ifdef DEBUG
+                type(vector2_t) :: ao, vo, po
+#endif DEBUG
 
                 !calculate F
                 !calculate A = ( F/m )
                 call get_acc_rigid_body(current(i), a)
                 call get_vel_rigid_body(current(i), v)
                 call get_pos_rigid_body(current(i), p)
+#ifdef DEBUG
+                ao = a
+                vo = v
+                po = p
+#endif DEBUG
                 
                 call get_delta_time( sim_time, dt) 
                 p = pos_mrua( p, a, v, dt)
                 v = vel_mrua( v, a, dt)
 #ifdef DEBUG
-                print*, "yea you are debugging"
+                call log_rigid_body_step(i, ao, vo, po, a, v, p)
 #endif
 
                 call update_rigid_body( tmp(i), a, v, p)
