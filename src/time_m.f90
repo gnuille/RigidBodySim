@@ -29,6 +29,13 @@ module time_m
                         s = t%step_time
                 end subroutine get_time
 
+                subroutine get_current_time(t, c)
+                        implicit none
+                        type(time_t) :: t
+                        real(kind=dp) :: c
+                        c = t%current_time
+                end subroutine get_current_time
+
                 subroutine get_delta_time( t, dt)
                         implicit none
                         type(time_t) :: t

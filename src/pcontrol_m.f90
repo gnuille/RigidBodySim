@@ -77,8 +77,6 @@ end subroutine parse_args
                 logical :: ended
                 call ended_time( sim_time, ended)
                 do while (.not. ended )
-                        print *, "New iteration: "
-                        call print_time( sim_time )
                         call step()
                         call ended_time( sim_time, ended)
                 end do
@@ -90,6 +88,7 @@ end subroutine parse_args
                 type(rigid_body_t), pointer, dimension(:) :: swp
 
                 integer :: I
+                call log_step(sim_time)
                 do I=1,nbodies
                         call compute_rigid_body_step(I)        
                 end do
@@ -115,7 +114,7 @@ end subroutine parse_args
                 real(kind=dp) :: dt
 #ifdef DEBUG
                 type(vector2_t) :: ao, vo, po
-#endif DEBUG
+#endif
 
                 !calculate F
                 !calculate A = ( F/m )
@@ -126,8 +125,7 @@ end subroutine parse_args
                 ao = a
                 vo = v
                 po = p
-#endif DEBUG
-                
+#endif
                 call get_delta_time( sim_time, dt) 
                 p = pos_mrua( p, a, v, dt)
                 v = vel_mrua( v, a, dt)
