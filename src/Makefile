@@ -12,11 +12,19 @@ main.x: main.f90 $(MODULES)
 main.d.x: main.f90 $(MODULES)
 	$(F90) $(FLAGS) -DDEBUG $(MODULES) main.f90 -o main.d.x
 
+main.xyz.x: main.f90 $(MODULES)
+	$(F90) $(FLAGS) -DXYZ $(MODULES) main.f90 -o main.xyz.x
+
 run: main.x
 	./main.x ../test/simple.inp
 	$(MAKE) clean
+
 test: main.d.x
 	./main.d.x ../test/simple.inp
+	$(MAKE) clean
+
+xyz: main.xyz.x
+	./main.xyz.x ../test/simple.inp
 	$(MAKE) clean
 
 clean:

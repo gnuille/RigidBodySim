@@ -7,6 +7,7 @@ module pcontrol_m
         implicit none 
         integer, parameter :: input_fd = 3 
         integer :: nbodies = 0
+        integer :: niter = 0
         type(rigid_body_t), target, dimension(:), allocatable :: bodies1, bodies2
         type(rigid_body_t), pointer, dimension(:) :: current, tmp
         type(time_t) :: sim_time
@@ -88,7 +89,11 @@ end subroutine parse_args
                 type(rigid_body_t), pointer, dimension(:) :: swp
 
                 integer :: I
+#ifdef XYZ
+                call print_header_xyz( niter, sim_time )
+#else
                 call log_step(sim_time)
+#endif
                 do I=1,nbodies
                         call compute_rigid_body_step(I)        
                 end do
@@ -98,6 +103,7 @@ end subroutine parse_args
                 tmp => swp
                 ! update time step for next iteration
                 call step_time( sim_time )
+                niter = niter + 1
 
         end subroutine step
 

@@ -55,12 +55,23 @@ module io_m
                       call print_vec2d_double("Body is at position: ", len("Body is at position: "), pi, pj)
               end subroutine print_pos_rigid_body
 
-              subroutine print_paraview_rigid_body(rigid_body)
+              subroutine print_header_xyz(i, t)
+                      implicit none
+                      type(time_t) :: t
+                      integer :: i
+                      real(kind=dp) :: ct
+                      character(len=80) :: header_fmt
+
+                      call get_current_time(t, ct)
+                      print '("",A,I0,A,F0.5)', " i = ",i," , time = ", ct
+              end subroutine print_header_xyz 
+
+              subroutine print_rigid_body_xyz(rigid_body)
                       implicit none
                       type(rigid_body_t) :: rigid_body
                       real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
                       call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
-              end subroutine print_paraview_rigid_body
+              end subroutine print_rigid_body_xyz
 
               subroutine read_time( fd, time, stat )
                       implicit none
