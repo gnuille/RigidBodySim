@@ -28,7 +28,10 @@ contains
 
                 call get_command_argument(1, filename)
                 call open_read(filename, input_fd)
+#ifndef XYZ
                 print *, "Succefully loaded input file"
+#endif
+
 end subroutine parse_args
 
         subroutine usage()
@@ -55,6 +58,10 @@ end subroutine parse_args
                 read (input_fd, *, IOSTAT=stat) id
                 if (id == "BODIES") then
                         read (input_fd, *, IOSTAT=stat) nbodies
+#ifdef XYZ
+                        call print_integer("",0,nbodies)
+                        print *, "RigidBodySim run :/"
+#endif
                         allocate(bodies1(nbodies)) 
                         allocate(bodies2(nbodies))
                         current =>  bodies1
@@ -62,12 +69,18 @@ end subroutine parse_args
                         do I=1,nbodies
                                 call read_rigid_body(input_fd, current(i), stat)        
                                 call copy_rigid_body( current(i), tmp(i))
+#ifdef XYZ
+                                call print_rigid_body_xyz(current(i))
+#else
                                 call print_rigid_body(current(i))
+#endif
                         end do
                         id = "NONE"
                 else if (id == "TIME") then
                         call read_time(input_fd, sim_time, stat)
+#ifndef XYZ
                         call print_time(sim_time)
+#endif
                         id = "NONE"
                 end if
                 end do
