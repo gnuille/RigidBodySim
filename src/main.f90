@@ -1,4 +1,4 @@
-PROGRAM test
+PROGRAM RigidBodySim    
         use pcontrol_m
 
         call parse_args()
@@ -6,6 +6,6 @@ PROGRAM test
         call simulate()
         !PRINT '("",I0)', ACUM
 
-END PROGRAM test
+END PROGRAM RigidBodySim
 
 
