@@ -24,8 +24,12 @@ test: main.d.x
 	$(MAKE) clean
 
 xyz: main.xyz.x
-	./main.xyz.x ../test/simple.inp
+	./main.xyz.x ../test/simple.inp | sed '$d' > simulation.xyz
 	$(MAKE) clean
 
 clean:
 	rm -rf *.x *.mod *.o
+
+distclean:
+	$(MAKE) clean
+	rm -rf *.xyz

@@ -7,7 +7,7 @@ module pcontrol_m
         implicit none 
         integer, parameter :: input_fd = 3 
         integer :: nbodies = 0
-        integer :: niter = 0
+        integer :: niter = 1
         type(rigid_body_t), target, dimension(:), allocatable :: bodies1, bodies2
         type(rigid_body_t), pointer, dimension(:) :: current, tmp
         type(time_t) :: sim_time
@@ -32,7 +32,7 @@ contains
                 print *, "Succefully loaded input file"
 #endif
 
-end subroutine parse_args
+        end subroutine parse_args
 
         subroutine usage()
                 implicit none
@@ -58,10 +58,6 @@ end subroutine parse_args
                 read (input_fd, *, IOSTAT=stat) id
                 if (id == "BODIES") then
                         read (input_fd, *, IOSTAT=stat) nbodies
-#ifdef XYZ
-                        call print_integer("",0,nbodies)
-                        print *, "RigidBodySim run :/"
-#endif
                         allocate(bodies1(nbodies)) 
                         allocate(bodies2(nbodies))
                         current =>  bodies1
@@ -69,9 +65,7 @@ end subroutine parse_args
                         do I=1,nbodies
                                 call read_rigid_body(input_fd, current(i), stat)        
                                 call copy_rigid_body( current(i), tmp(i))
-#ifdef XYZ
-                                call print_rigid_body_xyz(current(i))
-#else
+#ifndef XYZ
                                 call print_rigid_body(current(i))
 #endif
                         end do
@@ -80,6 +74,8 @@ end subroutine parse_args
                         call read_time(input_fd, sim_time, stat)
 #ifndef XYZ
                         call print_time(sim_time)
+#else
+                        call print_iteration_xyz(0, sim_time, current, nbodies)
 #endif
                         id = "NONE"
                 end if
@@ -102,9 +98,7 @@ end subroutine parse_args
                 type(rigid_body_t), pointer, dimension(:) :: swp
 
                 integer :: I
-#ifdef XYZ
-                call print_header_xyz( niter, sim_time )
-#else
+#ifndef XYZ
                 call log_step(sim_time)
 #endif
                 do I=1,nbodies
@@ -116,13 +110,18 @@ end subroutine parse_args
                 tmp => swp
                 ! update time step for next iteration
                 call step_time( sim_time )
+#ifdef XYZ
+                call print_iteration_xyz(niter, sim_time, current, nbodies)
+#endif
                 niter = niter + 1
 
         end subroutine step
 
         subroutine end_sim()
                 implicit none
+#ifndef XYZ
                 print *, "Simulation has ended"
+#endif
                 stop 0
         end subroutine end_sim
 

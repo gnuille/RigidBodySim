@@ -55,14 +55,15 @@ module io_m
                       call print_vec2d_double("Body is at position: ", len("Body is at position: "), pi, pj)
               end subroutine print_pos_rigid_body
 
-              subroutine print_header_xyz(i, t)
+              subroutine print_header_xyz(i, t, n)
                       implicit none
                       type(time_t) :: t
-                      integer :: i
+                      integer :: i, n
                       real(kind=dp) :: ct
                       character(len=80) :: header_fmt
 
                       call get_current_time(t, ct)
+                      call print_integer("",len(""), n)
                       print '("",A,I0,A,F0.5)', " i = ",i," , time = ", ct
               end subroutine print_header_xyz 
 
@@ -70,7 +71,13 @@ module io_m
                       implicit none
                       type(rigid_body_t) :: rigid_body
                       real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
+                      character(len=80) :: body_fmt
+                        
+                      body_fmt="(A,F0.5,A,F0.5,A,F0.5) "
+
                       call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
+                      write(*, body_fmt) "C ", pi, " ", pj, " ", 1.000
+
               end subroutine print_rigid_body_xyz
 
               subroutine read_time( fd, time, stat )
@@ -145,5 +152,17 @@ module io_m
                       write(*, f) label, "from (",io,",",jo,") to (",i,",",j,")"
               end subroutine print_update_vector2
                       
+              subroutine print_iteration_xyz( i, t, b, n)
+                      implicit none
+                      integer :: i, n, j
+                      type(time_t) :: t
+                      type(rigid_body_t), pointer, dimension(:) :: b
+                     
+                      call print_header_xyz(i, t, n)
+                      do j = 0,n
+                        call print_rigid_body_xyz(b(j))
+                      end do
+              end subroutine print_iteration_xyz
+
 end module io_m
 

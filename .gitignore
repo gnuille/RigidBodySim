@@ -34,3 +34,6 @@
 
 # Tags file
 tags
+
+#XYZ files
+*.xyz
