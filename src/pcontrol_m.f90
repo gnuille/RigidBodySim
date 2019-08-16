@@ -74,12 +74,13 @@ contains
                         call read_time(input_fd, sim_time, stat)
 #ifndef XYZ
                         call print_time(sim_time)
-#else
-                        call print_iteration_xyz(0, sim_time, current, nbodies)
 #endif
                         id = "NONE"
                 end if
                 end do
+#ifdef XYZ
+                call print_iteration_xyz(0, sim_time, current, nbodies)
+#endif
         end subroutine parse_input
 
         subroutine simulate()
