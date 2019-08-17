@@ -3,27 +3,10 @@ module io_m
       use vector2_m
       use time_m
       use constants_m
+      use io_xyz_m
       implicit none
       public :: open_read
       contains
-
-             subroutine float2char(f, c, nchars )
-                     implicit none
-                     character(*) :: c
-                     real(kind=dp) :: f
-                     integer :: nchars
-
-                     write(c, '(F0.5)') f 
-                     if(c(1:1) == '.') then
-                         c= '0' // c
-                         nchars = 7
-                     else if(c(1:2) == '-.') then
-                         c= '-0.' // c(3:)
-                         nchars = 8
-                     else
-                         nchars = -1
-                     end if
-             end subroutine float2char
 
               subroutine open_read( filename, fd )
                         implicit none
@@ -73,49 +56,6 @@ module io_m
 
                       call print_vec2d_double("Body is at position: ", len("Body is at position: "), pi, pj)
               end subroutine print_pos_rigid_body
-
-              subroutine print_header_xyz(i, t, n)
-                      implicit none
-                      type(time_t) :: t
-                      integer :: i, n, ch
-                      real(kind=dp) :: ct
-                      character(len=80) :: header_fmt, ptime
-                      character(len=8) :: c8
-                      character(len=7) :: c7
-
-                      call get_current_time(t, ct)
-                      call float2char(ct, ptime, ch)
-                      call print_integer("",len(""), n)
-
-                      if (ch == 7) then
-                              call float2char(ct, c7, ch) 
-                              print '("",A,I0,A,A)', " i = ",i," , time = ", c7
-
-                      else if (ch == 8) then
-                              call float2char(ct, c8, ch) 
-                              print '("",A,I0,A,A)', " i = ",i," , time = ", c8
-                      else
-                              print '("",A,I0,A,F0.5)', " i = ",i," , time = ", ct
-                              
-                      end if
-
-              end subroutine print_header_xyz 
-
-              subroutine print_rigid_body_xyz(rigid_body)
-                      implicit none
-                      type(rigid_body_t) :: rigid_body
-                      real(kind=dp) :: pi, pj, vi, vj, ai, aj, q, m
-                      character(len=80) :: body_fmt, ci, cj
-                      integer :: ch
-                        
-                      body_fmt="(A,A,A,A,A,F0.5) "
-
-                      call get_rigid_body(rigid_body, pi, pj, vi, vj, ai, aj, q, m)
-                      call float2char(pi, ci, ch)
-                      call float2char(pj, cj, ch)
-                      write(*, body_fmt) "C ", ci, " ", cj, " ", 1.000
-
-              end subroutine print_rigid_body_xyz
 
               subroutine read_time( fd, time, stat )
                       implicit none
@@ -196,7 +136,7 @@ module io_m
                       type(rigid_body_t), pointer, dimension(:) :: b
                      
                       call print_header_xyz(i, t, n)
-                      do j = 0,n
+                      do j = 1,n
                         call print_rigid_body_xyz(b(j))
                       end do
               end subroutine print_iteration_xyz
