@@ -66,6 +66,15 @@ module io_m
                       call set_time( time, bt, et, st )
               end subroutine read_time
 
+              subroutine read_vector2( fd, v2, stat )
+                      implicit none
+                      integer :: fd, stat
+                      type(vector2_t) :: v2
+                      real(kind=dp) :: i, j
+                      read (fd, *, IOSTAT=stat) i, j
+                      call set_v2( v2, i, j)
+              end subroutine read_vector2
+
               subroutine print_time( time )
                       implicit none
                       type(time_t) :: time
@@ -140,6 +149,16 @@ module io_m
                         call print_rigid_body_xyz(b(j))
                       end do
               end subroutine print_iteration_xyz
+
+              subroutine print_force( vec2 )
+                      implicit none
+                      type(vector2_t) :: vec2
+                      real(kind=dp) i, j
+                      call get_v2(vec2, i, j)
+                      print *, "Global uniform force:"
+                      write(*, "(A,F0.5,A,F0.5,A)") "        -Value (",i,",",j,")"
+              end subroutine print_force
+
 
 end module io_m
 

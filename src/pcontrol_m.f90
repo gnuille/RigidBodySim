@@ -8,13 +8,14 @@ module pcontrol_m
         integer, parameter :: input_fd = 3 
         integer :: nbodies = 0
         integer :: niter = 1
+        type(vector2_t) :: global_force
         type(rigid_body_t), target, dimension(:), allocatable :: bodies1, bodies2
         type(rigid_body_t), pointer, dimension(:) :: current, tmp
         type(time_t) :: sim_time
 
         public :: parse_args
 
-contains
+contains 
         subroutine parse_args() 
                 implicit none
                 character(len = 255) :: filename
@@ -53,9 +54,11 @@ contains
                 implicit none
                 character(len = 255) :: id
                 integer :: stat = 0, I
+                real(kind=dp) :: zero = 0
 
                 do while( stat == 0 )
                 read (input_fd, *, IOSTAT=stat) id
+                call set_v2(global_force, zero, zero)
                 if (id == "BODIES") then
                         read (input_fd, *, IOSTAT=stat) nbodies
                         allocate(bodies1(nbodies)) 
@@ -74,6 +77,12 @@ contains
                         call read_time(input_fd, sim_time, stat)
 #ifndef XYZ
                         call print_time(sim_time)
+#endif
+                        id = "NONE"
+                else if (id == "FORCE") then
+                        call read_vector2(input_fd, global_force, stat) 
+#ifndef XYZ
+                        call print_force(global_force)
 #endif
                         id = "NONE"
                 end if
