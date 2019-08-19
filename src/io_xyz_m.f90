@@ -73,39 +73,39 @@ module io_xyz_m
                                       call float2char(pi, c18, ch1)
                                       if ( ch2 .EQ. 8 ) then
                                               call float2char(pj, c28, ch2)
-                                              write(*, cc) "C ", c18, " ", c28, " ", 1.000
+                                              write(*, cc) "F ", c18, " ", c28, " ", 1.000
                                       else
                                               call float2char(pj, c27, ch2)
-                                              write(*, cc) "C ", c18, " ", c27, " ", 1.000
+                                              write(*, cc) "F ", c18, " ", c27, " ", 1.000
                                       end if
                               else
                                       call float2char(pi, c17, ch1)
                                       if ( ch2 .EQ. 8) then
                                               call float2char(pj, c28, ch2)
-                                              write(*, cc) "C ", c17, " ", c28, " ", 1.000
+                                              write(*, cc) "F ", c17, " ", c28, " ", 1.000
                                       else
                                               call float2char(pj, c27, ch2)
-                                              write(*, cc) "C ", c17, " ", c27, " ", 1.000
+                                              write(*, cc) "F ", c17, " ", c27, " ", 1.000
                                       end if
                               end if
                       else if ( ch1 .GT. 0 ) then
                               if ( ch1 .EQ. 8 ) then
                                       call float2char(pi, c18, ch1)
-                                      write(*, cf) "C ", c18, " ", pj, " ", 1.000
+                                      write(*, cf) "F ", c18, " ", pj, " ", 1.000
                               else
                                       call float2char(pi, c17, ch1)
-                                      write(*, cf) "C ", c17, " ", pj, " ", 1.000
+                                      write(*, cf) "F ", c17, " ", pj, " ", 1.000
                               end if
                       else if ( ch2 .GT. 0) then
                               if (ch2 .EQ. 8 ) then
                                       call float2char(pj, c28, ch2)
-                                      write(*, fc) "C ", pi, " ", c28, " ", 1.000
+                                      write(*, fc) "F ", pi, " ", c28, " ", 1.000
                               else
                                       call float2char(pj, c27, ch2)
-                                      write(*, fc) "C ", pi, " ", c27, " ", 1.000
+                                      write(*, fc) "F ", pi, " ", c27, " ", 1.000
                               end if
                       else
-                              write(*, ff) "C ", pi, " ", pj, " ", 1.000
+                              write(*, ff) "F ", pi, " ", pj, " ", 1.000
                       end if
 
               end subroutine print_rigid_body_xyz

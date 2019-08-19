@@ -56,36 +56,36 @@ contains
                 integer :: stat = 0, I
                 real(kind=dp) :: zero = 0
 
-                do while( stat == 0 )
-                read (input_fd, *, IOSTAT=stat) id
                 call set_v2(global_force, zero, zero)
-                if (id == "BODIES") then
-                        read (input_fd, *, IOSTAT=stat) nbodies
-                        allocate(bodies1(nbodies)) 
-                        allocate(bodies2(nbodies))
-                        current =>  bodies1
-                        tmp     =>  bodies2
-                        do I=1,nbodies
-                                call read_rigid_body(input_fd, current(i), stat)        
-                                call copy_rigid_body( current(i), tmp(i))
+                do while( stat == 0 )
+                        read (input_fd, *, IOSTAT=stat) id
+                        if (id == "BODIES") then
+                                read (input_fd, *, IOSTAT=stat) nbodies
+                                allocate(bodies1(nbodies)) 
+                                allocate(bodies2(nbodies))
+                                current =>  bodies1
+                                tmp     =>  bodies2
+                                do I=1,nbodies
+                                        call read_rigid_body(input_fd, current(i), stat)        
+                                        call copy_rigid_body( current(i), tmp(i))
 #ifndef XYZ
-                                call print_rigid_body(current(i))
+                                        call print_rigid_body(current(i))
 #endif
-                        end do
-                        id = "NONE"
-                else if (id == "TIME") then
-                        call read_time(input_fd, sim_time, stat)
+                                end do
+                                id = "NONE"
+                        else if (id == "TIME") then
+                                call read_time(input_fd, sim_time, stat)
 #ifndef XYZ
-                        call print_time(sim_time)
+                                call print_time(sim_time)
 #endif
-                        id = "NONE"
-                else if (id == "FORCE") then
-                        call read_vector2(input_fd, global_force, stat) 
+                                id = "NONE"
+                        else if (id == "FORCE") then
+                                call read_vector2(input_fd, global_force, stat) 
 #ifndef XYZ
-                        call print_force(global_force)
+                                call print_force(global_force)
 #endif
-                        id = "NONE"
-                end if
+                                id = "NONE"
+                        end if
                 end do
 #ifdef XYZ
                 call print_iteration_xyz(0, sim_time, current, nbodies)
@@ -154,6 +154,7 @@ contains
                 vo = v
                 po = p
 #endif
+                a = add_v2(a, global_force)
                 call get_delta_time( sim_time, dt) 
                 p = pos_mrua( p, a, v, dt)
                 v = vel_mrua( v, a, dt)
